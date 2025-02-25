@@ -1,0 +1,4133 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Groupings in the context of Templates.</title>
+<meta content="Deepak Rajaram" name="author">
+<meta content="Robert Peschi" name="author">
+<meta content="Shiya Ashraf" name="author">
+<meta content="
+       This document explores the importance of groupings in the context of templates[https://datatracker.ietf.org/doc/draft-rajaram-netmod-yang-cfg-template-framework/], their advantages, and provides practical examples to illustrate their usage. Additionally, we discuss adapting existing YANG models to use groupings effectively while ensuring structural integrity. 
+    " name="description">
+<meta content="xml2rfc 3.27.0" name="generator">
+<meta content="templates" name="keyword">
+<meta content="profiles" name="keyword">
+<meta content="yang scalability" name="keyword">
+<meta content="groupings" name="keyword">
+<meta content="draft-drajaram-netmod-yang-groups-template-00" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.27.0
+    Python 3.12.3
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.5
+    lxml 5.3.0
+    platformdirs 4.3.6
+    pycountry 24.6.1
+    pydyf 0.9.0
+    PyYAML 6.0.2
+    requests 2.32.3
+    setuptools 75.8.0
+    wcwidth 0.2.13
+    weasyprint 61.2
+-->
+<link href="draft-drajaram-netmod-yang-groups-template-00.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">/*
+
+  NOTE: Changes at the bottom of this file overrides some earlier settings.
+
+  Once the style has stabilized and has been adopted as an official RFC style,
+  this can be consolidated so that style settings occur only in one place, but
+  for now the contents of this file consists first of the initial CSS work as
+  provided to the RFC Formatter (xml2rfc) work, followed by itemized and
+  commented changes found necessary during the development of the v3
+  formatters.
+
+*/
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans'); /* Sans-serif */
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif'); /* Serif (print) */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); /* Monospace */
+
+:root {
+  --font-sans: 'Noto Sans', Arial, Helvetica, sans-serif;
+  --font-serif: 'Noto Serif', 'Times', 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono', Courier, 'Courier New', monospace;
+}
+
+@viewport {
+  zoom: 1.0;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+/* general and mobile first */
+html {
+}
+body {
+  max-width: 90%;
+  margin: 1.5em auto;
+  color: #222;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-wrap: break-word;
+}
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  margin: 1em 0 0.5em;
+  font-weight: bold;
+  line-height: 1.3;
+}
+#title {
+  clear: both;
+  border-bottom: 1px solid #ddd;
+  margin: 0 0 0.5em 0;
+  padding: 1em 0 0.5em;
+}
+.author {
+  padding-bottom: 4px;
+}
+h1 {
+  font-size: 26px;
+  margin: 1em 0;
+}
+h2 {
+  font-size: 22px;
+  margin-top: -20px;  /* provide offset for in-page anchors */
+  padding-top: 33px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h4 {
+  font-size: 16px;
+  margin-top: -36px;  /* provide offset for in-page anchors */
+  padding-top: 42px;
+}
+h5, h6 {
+  font-size: 14px;
+}
+#n-copyright-notice {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+/* general structure */
+p {
+  padding: 0;
+  margin: 0 0 1em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+svg[font-family~="serif" i], svg [font-family~="serif" i] {
+  font-family: var(--font-serif);
+}
+svg[font-family~="sans-serif" i], svg [font-family~="sans-serif" i] {
+  font-family: var(--font-sans);
+}
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  padding: 1em 1em 0;
+  margin-bottom: 1.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  display: table;
+  border: none;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.ulBare, li.ulBare {
+  margin-left: 0em !important;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+/* 
+dl.nohang > dt {
+  float: none;
+}
+*/
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+
+/* links */
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #22e; /* Arlen: WCAG 2019 */
+}
+a[href]:hover {
+  background-color: #f2f2f2;
+}
+figcaption a[href],
+a[href].selfRef {
+  color: #222;
+}
+/* XXX probably not this:
+a.selfRef:hover {
+  background-color: transparent;
+  cursor: default;
+} */
+
+/* Figures */
+tt, code, pre {
+  background-color: #f9f9f9;
+  font-family: var(--font-mono);
+}
+pre {
+  border: 1px solid #eee;
+  margin: 0;
+  padding: 1em;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption {
+  font-style: italic;
+  margin: 0 0 1em 0;
+}
+@media screen {
+  pre {
+    overflow-x: auto;
+    max-width: 100%;
+    max-width: calc(100% - 22px);
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 1.2em 2em;
+}
+blockquote {
+  background-color: #f9f9f9;
+  color: #111; /* Arlen: WCAG 2019 */
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin: 1em 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+.xref {
+  overflow-wrap: normal;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #e9e9e9;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f5f5f5;
+}
+table caption {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  color: #666; /* Arlen: AHDJ 2019 */
+  text-decoration: none;
+  visibility: hidden;
+  user-select: none;
+  -ms-user-select: none;
+  -o-user-select:none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+@media screen {
+  aside:hover > a.pilcrow,
+  p:hover > a.pilcrow,
+  blockquote:hover > a.pilcrow,
+  div:hover > a.pilcrow,
+  li:hover > a.pilcrow,
+  pre:hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: 0.9em;
+}
+#identifiers dt {
+  width: 3em;
+  clear: left;
+}
+#identifiers dd {
+  float: left;
+  margin-bottom: 0;
+}
+/* Fix PDF info block run off issue */
+@media print {
+  #identifiers dd {
+    max-width: 100%;
+  }
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #666; /* Arlen: WCAG 2019 */
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc  {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+nav.toc ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+nav.toc li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.refSubseries {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+  }
+  .index ul ul {
+    -moz-column-count: 1;
+    -moz-column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  font-family: var(--font-sans);
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #9e2a00; /* Arlen: WCAG 2019 */
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  border-radius: 3px;
+}
+.cref {
+  background-color: #ffd; /* Arlen: WCAG 2019 */
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 1023px) {
+  body {
+    padding-top: 2em;
+  }
+  #title {
+    padding: 1em 0;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-top: -18px;  /* provide offset for in-page anchors */
+    padding-top: 38px;
+  }
+  #identifiers dd {
+    max-width: 60%;
+  }
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    border-bottom: 1px solid #ccc;
+  }
+  #toc h2 {
+    margin: -1px 0 0 0;
+    padding: 4px 0 4px 6px;
+    padding-right: 1em;
+    min-width: 190px;
+    font-size: 1.1em;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 6px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 1024px) {
+  body {
+    max-width: 724px;
+    margin: 42px auto;
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+  #toc {
+    position: fixed;
+    top: 42px;
+    right: 42px;
+    width: 25%;
+    margin: 0;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #toc h2 {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 0;
+    overflow: auto;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  .breakable pre {
+    break-inside: auto;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+/* This is commented out here, as the string-set: doesn't
+   pass W3C validation currently */
+/*
+.ears thead .left {
+  string-set: ears-top-left content();
+}
+
+.ears thead .center {
+  string-set: ears-top-center content();
+}
+
+.ears thead .right {
+  string-set: ears-top-right content();
+}
+
+.ears tfoot .left {
+  string-set: ears-bottom-left content();
+}
+
+.ears tfoot .center {
+  string-set: ears-bottom-center content();
+}
+
+.ears tfoot .right {
+  string-set: ears-bottom-right content();
+}
+*/
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+  /* The following is commented out here, but set appropriately by in code, as
+     the content depends on the document */
+  /*
+  @top-left {
+    content: 'Internet-Draft';
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-left {
+    content: string(ears-top-left);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-center {
+    content: string(ears-top-center);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @top-right {
+    content: string(ears-top-right);
+    vertical-align: bottom;
+    border-bottom: solid 1px #ccc;
+  }
+  @bottom-left {
+    content: string(ears-bottom-left);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-center {
+    content: string(ears-bottom-center);
+    vertical-align: top;
+    border-top: solid 1px #ccc;
+  }
+  @bottom-right {
+      content: '[Page ' counter(page) ']';
+      vertical-align: top;
+      border-top: solid 1px #ccc;
+  }
+  */
+
+}
+
+/* Changes introduced to fix issues found during implementation */
+/* Make sure links are clickable even if overlapped by following H* */
+a {
+  z-index: 2;
+}
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Leave room in document info to show Internet-Draft on one line */
+#identifiers dt {
+  width: 8em;
+}
+
+/* Don't waste quite as much whitespace between label and value in doc info */
+#identifiers dd {
+  margin-left: 1em;
+}
+
+/* Give floating toc a background color (needed when it's a div inside section */
+#toc {
+  background-color: white;
+}
+
+/* Make the collapsed ToC header render white on gray also when it's a link */
+@media screen and (max-width: 1023px) {
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+}
+
+/* Give the bottom of the ToC some whitespace */
+@media screen and (min-width: 1024px) {
+  #toc {
+    padding: 0 0 1em 1em;
+  }
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* prevent monospace from becoming overly large */
+tt, code, pre {
+  font-size: 95%;
+}
+
+/* Fix the height/width aspect for ascii art*/
+.sourcecode pre,
+.art-text pre {
+  line-height: 1.12;
+}
+
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin-right: 0.5em;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 30em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+caption a[href] {
+  color: #222;
+}
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+/* Tweak the invisible space above H* in order not to overlay links in text above */
+ h2 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 31px;
+ }
+ h3 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+ h4 {
+  margin-top: -18px;  /* provide offset for in-page anchors */
+  padding-top: 24px;
+ }
+/* Float artwork pilcrow to the right */
+@media screen {
+  .artwork a.pilcrow {
+    display: block;
+    line-height: 0.7;
+    margin-top: 0.15em;
+  }
+}
+/* Make pilcrows on dd visible */
+@media screen {
+  dd:hover > a.pilcrow {
+    visibility: visible;
+  }
+}
+/* Make the placement of figcaption match that of a table's caption
+   by removing the figure's added bottom margin */
+.alignLeft.art-text,
+.alignCenter.art-text,
+.alignRight.art-text {
+   margin-bottom: 0;
+}
+.alignLeft,
+.alignCenter,
+.alignRight {
+  margin: 1em 0 0 0;
+}
+/* In print, the pilcrow won't show on hover, so prevent it from taking up space,
+   possibly even requiring a new line */
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+/* Styling for the external metadata */
+div#external-metadata {
+  background-color: #eee;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  display: none;
+}
+div#internal-metadata {
+  padding: 0.5em;                       /* to match the external-metadata padding */
+}
+/* Styling for title RFC Number */
+h1#rfcnum {
+  clear: both;
+  margin: 0 0 -1em;
+  padding: 1em 0 0 0;
+}
+/* Make .olPercent look the same as <ol><li> */
+dl.olPercent > dd {
+  margin-bottom: 0.25em;
+  min-height: initial;
+}
+/* Give aside some styling to set it apart */
+aside {
+  border-left: 1px solid #ddd;
+  margin: 1em 0 1em 2em;
+  padding: 0.2em 2em;
+}
+aside > dl,
+aside > ol,
+aside > ul,
+aside > table,
+aside > p {
+  margin-bottom: 0.5em;
+}
+/* Additional page break settings */
+@media print {
+  figcaption, table caption {
+    page-break-before: avoid;
+  }
+}
+/* Font size adjustments for print */
+@media print {
+  body  { font-size: 10pt;      line-height: normal; max-width: 96%; }
+  h1    { font-size: 1.72em;    padding-top: 1.5em; } /* 1*1.2*1.2*1.2 */
+  h2    { font-size: 1.44em;    padding-top: 1.5em; } /* 1*1.2*1.2 */
+  h3    { font-size: 1.2em;     padding-top: 1.5em; } /* 1*1.2 */
+  h4    { font-size: 1em;       padding-top: 1.5em; }
+  h5, h6 { font-size: 1em;      margin: initial; padding: 0.5em 0 0.3em; }
+}
+/* Sourcecode margin in print, when there's no pilcrow */
+@media print {
+  .artwork,
+  .artwork > pre,
+  .sourcecode {
+    margin-bottom: 1em;
+  }
+}
+/* Avoid narrow tables forcing too narrow table captions, which may render badly */
+table {
+  min-width: 20em;
+}
+/* ol type a */
+ol.type-a { list-style-type: lower-alpha; }
+ol.type-A { list-style-type: upper-alpha; }
+ol.type-i { list-style-type: lower-roman; }
+ol.type-I { list-style-type: upper-roman; }
+/* Apply the print table and row borders in general, on request from the RPC,
+and increase the contrast between border and odd row background slightly */
+table {
+  border: 1px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+}
+tr {
+  break-inside: avoid;
+}
+tr:nth-child(2n+1) > td {
+  background-color: #f8f8f8;
+}
+/* Use style rules to govern display of the TOC. */
+@media screen and (max-width: 1023px) {
+  #toc nav { display: none; }
+  #toc.active nav { display: block; }
+}
+/* Add support for keepWithNext */
+.keepWithNext {
+  break-after: avoid-page;
+  break-after: avoid-page;
+}
+/* Add support for keepWithPrevious */
+.keepWithPrevious {
+  break-before: avoid-page;
+}
+/* Change the approach to avoiding breaks inside artwork etc. */
+figure, pre, table, .artwork, .sourcecode  {
+  break-before: auto;
+  break-after: auto;
+}
+/* Avoid breaks between <dt> and <dd> */
+dl {
+  break-before: auto;
+  break-inside: auto;
+}
+dt {
+  break-before: auto;
+  break-after: avoid-page;
+}
+dd {
+  break-before: avoid-page;
+  break-after: auto;
+  orphans: 3;
+  widows: 3
+}
+span.break, dd.break {
+  margin-bottom: 0;
+  min-height: 0;
+  break-before: auto;
+  break-inside: auto;
+  break-after: auto;
+}
+/* Undo break-before ToC */
+@media print {
+  #toc {
+    break-before: auto;
+  }
+}
+/* Text in compact lists should not get extra bottom margin space,
+   since that would makes the list not compact */
+ul.compact p, .ulCompact p,
+ol.compact p, .olCompact p {
+ margin: 0;
+}
+/* But the list as a whole needs the extra space at the end */
+section ul.compact,
+section .ulCompact,
+section ol.compact,
+section .olCompact {
+  margin-bottom: 1em;                    /* same as p not within ul.compact etc. */
+}
+/* The tt and code background above interferes with for instance table cell
+   backgrounds.  Changed to something a bit more selective. */
+tt, code {
+  background-color: transparent;
+}
+p tt, p code, li tt, li code, dt tt, dt code {
+  background-color: #f8f8f8;
+}
+/* Tweak the pre margin -- 0px doesn't come out well */
+pre {
+   margin-top: 0.5px;
+}
+/* Tweak the compact list text */
+ul.compact, .ulCompact,
+ol.compact, .olCompact,
+dl.compact, .dlCompact {
+  line-height: normal;
+}
+/* Don't add top margin for nested lists */
+li > ul, li > ol, li > dl,
+dd > ul, dd > ol, dd > dl,
+dl > dd > dl {
+  margin-top: initial;
+}
+/* Elements that should not be rendered on the same line as a <dt> */
+/* This should match the element list in writer.text.TextWriter.render_dl() */
+dd > div.artwork:first-child,
+dd > aside:first-child,
+dd > figure:first-child,
+dd > ol:first-child,
+dd > div.sourcecode:first-child,
+dd > table:first-child,
+dd > ul:first-child {
+  clear: left;
+}
+/* fix for weird browser behaviour when <dd/> is empty */
+dt+dd:empty::before{
+  content: "\00a0";
+}
+/* Make paragraph spacing inside <li> smaller than in body text, to fit better within the list */
+li > p {
+  margin-bottom: 0.5em
+}
+/* Don't let p margin spill out from inside list items */
+li > p:last-of-type:only-child {
+  margin-bottom: 0;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
+</head>
+<body class="xml2rfc">
+<script src="metadata.min.js"></script>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">yang-groups-template</td>
+<td class="right">February 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Rajaram, et al.</td>
+<td class="center">Expires 29 August 2025</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">netmod</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-drajaram-netmod-yang-groups-template-00</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-02-25" class="published">25 February 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2025-08-29">29 August 2025</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">D. Rajaram</div>
+<div class="org">Nokia</div>
+</div>
+<div class="author">
+      <div class="author-name">R. Peschi</div>
+<div class="org">Nokia</div>
+</div>
+<div class="author">
+      <div class="author-name">S. Ashraf</div>
+<div class="org">Nokia</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Groupings in the context of Templates.</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document explores the importance of groupings in the context of templates[https://datatracker.ietf.org/doc/draft-rajaram-netmod-yang-cfg-template-framework/], their advantages, and provides practical examples to illustrate their usage. Additionally, we discuss adapting existing YANG models to use groupings effectively while ensuring structural integrity.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-about-this-document">
+<a href="#name-about-this-document" class="section-name selfRef">About This Document</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">
+        The latest revision of this draft can be found at <span><a href="https://example.com/LATEST">https://example.com/LATEST</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-drajaram-netmod-yang-groups-template/">https://datatracker.ietf.org/doc/draft-drajaram-netmod-yang-groups-template/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">
+        Discussion of this document takes place on the
+        WG Working Group mailing list (<span><a href="mailto:WG@example.com">mailto:WG@example.com</a></span>),
+        which is archived at <span><a href="https://example.com/WG">https://example.com/WG</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+<p id="section-note.1-4">Source for this draft and an issue tracker can be found at
+        <span><a href="https://github.com/USER/REPO">https://github.com/USER/REPO</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 29 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-understanding-groupings-in-" class="internal xref">Understanding Groupings in YANG</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-understanding-groupings-in-t" class="internal xref">Understanding Groupings in Templates</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-adapting-existing-yang-mode" class="internal xref">Adapting Existing YANG Models to Use Groupings</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-identify-repetitive-structu" class="internal xref">Identify Repetitive Structures</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-define-a-grouping" class="internal xref">Define a Grouping</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-replace-redundant-code-with" class="internal xref">Replace Redundant Code with Uses Statement</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.1">
+                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="auto internal xref">4.3.1</a>.  <a href="#name-example-converting-an-exist" class="internal xref">Example: Converting an Existing Model to Use Groupings</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.2">
+                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="auto internal xref">4.3.2</a>.  <a href="#name-example-converting-an-existi" class="internal xref">Example: Converting an Existing Model to Use Groupings with feature flag</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-advantages-of-using-groupin" class="internal xref">Advantages of Using Groupings</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.1">
+                    <p id="section-toc.1-1.4.2.4.2.1.1"><a href="#section-4.4.1" class="auto internal xref">4.4.1</a>.  <a href="#name-code-reusability" class="internal xref">Code Reusability</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.2">
+                    <p id="section-toc.1-1.4.2.4.2.2.1"><a href="#section-4.4.2" class="auto internal xref">4.4.2</a>.  <a href="#name-consistency" class="internal xref">Consistency</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.3">
+                    <p id="section-toc.1-1.4.2.4.2.3.1"><a href="#section-4.4.3" class="auto internal xref">4.4.3</a>.  <a href="#name-modularity" class="internal xref">Modularity</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4.2.4">
+                    <p id="section-toc.1-1.4.2.4.2.4.1"><a href="#section-4.4.4" class="auto internal xref">4.4.4</a>.  <a href="#name-simplified-maintenance" class="internal xref">Simplified Maintenance</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-conclusion" class="internal xref">Conclusion</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">One of the key features of YANG is the use of "groupings", which allow for modular and reusable schema components. Groupings enable better organization, efficiency, and consistency in YANG models, making them a best practice in network modeling.<a href="#section-1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="understanding-groupings-in-yang">
+<section id="section-2">
+      <h2 id="name-understanding-groupings-in-">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-understanding-groupings-in-" class="section-name selfRef">Understanding Groupings in YANG</a>
+      </h2>
+<p id="section-2-1">A "groupings" on it's own do not instantiate data nodes by themselves but it is a reusable 'blueprint' that defines a set of schema nodes.It can be used within container, list, or other YANG constructs using the "uses" statement.Groupings help avoid repetition and enable the modularization of models.<a href="#section-2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="understanding-groupings-in-templates">
+<section id="section-3">
+      <h2 id="name-understanding-groupings-in-t">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-understanding-groupings-in-t" class="section-name selfRef">Understanding Groupings in Templates</a>
+      </h2>
+<p id="section-3-1">Templates are logical structures in YANG that standardize configuration patterns across multiple template-consumers/instances. They enable network operators to create reusable configurations for devices, interfaces, or services. Templates often leverage groupings to encapsulate standard structures that can be instantiated multiple times.While groupings in general acts as a blueprint, it is extremly usefull when used with yang templates.It promotes the concept of DRY(dont repeat yourself) while allowing modification or overwriting the value of a data node in the template-consumer(instance). The resultant configuration will be a merge of the values coming from template and the values comings from the template-consumer, the values from template-consumer takes higher precedance.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">A YANG template can be constructed using groupings to define standard configuration blocks, which are then applied to various parts of a model.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Example: Creating a Reusable Interface Template<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">Step 1: Define a Grouping and Instantiate It in a Template<a href="#section-3-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-5">
+<pre>
+module interface-template {
+    namespace "http://example.com/interface-template";
+    prefix intf;
+
+    grouping interface-config {
+        leaf interface-name {
+            type string;
+        }
+        leaf ip-address {
+            type string;
+        }
+        leaf subnet-mask {
+            type string;
+        }
+    }
+
+    container interface-template {
+        uses interface-config {
+            refine ip-address {
+              default "192.168.1.1";
+            }
+            refine subnet-mask {
+              default "255.255.255.0";
+            }
+        }
+    }
+}
+</pre><a href="#section-3-5" class="pilcrow">¶</a>
+</div>
+<p id="section-3-6">Configuration Instance of interface-template<a href="#section-3-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-7">
+<pre>
+&lt;interface-template&gt;
+ &lt;interface-name&gt;eth0&lt;/interface-name&gt;
+ &lt;ip-address&gt;192.168.1.3&lt;/ip-address&gt;
+ &lt;subnet-mask&gt;255.255.255.0&lt;/subnet-mask&gt;
+&lt;/interface-template&gt;
+</pre><a href="#section-3-7" class="pilcrow">¶</a>
+</div>
+<p id="section-3-8">Step 2: Override(if needed) Certain Values in a Template Consumer<a href="#section-3-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-9">
+<pre>
+module network-config {
+    namespace "http://example.com/network-config";
+    prefix netcfg;
+
+    import interface-template {
+        prefix intf;
+    }
+
+    container interfaces {
+        container interface-instance {
+            uses intf:interface-config {
+                refine ip-address {
+                    default "192.168.2.1";
+                    // Overriding configured IP from the template.
+                }
+                refine subnet-mask {
+                default "255.255.255.128";  // Overriding subnet mask
+                }
+            }
+        }
+    }
+}
+</pre><a href="#section-3-9" class="pilcrow">¶</a>
+</div>
+<p id="section-3-10">Step 3: Instantiate the Template in a Configuration Instance<a href="#section-3-10" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3-11">
+<pre>
+&lt;interfaces&gt;
+&lt;interface-instance&gt;
+    &lt;interface-name&gt;eth0&lt;/interface-name&gt;
+    &lt;ip-address&gt;192.168.2.1&lt;/ip-address&gt;
+    &lt;subnet-mask&gt;255.255.255.128&lt;/subnet-mask&gt;
+&lt;/interface-instance&gt;
+&lt;/interfaces&gt;
+</pre><a href="#section-3-11" class="pilcrow">¶</a>
+</div>
+<p id="section-3-12">The interface-template module defines a grouping called interface-config, which contains interface-related configurations.<a href="#section-3-12" class="pilcrow">¶</a></p>
+<p id="section-3-13">The interface-template container within interface-template instantiates the grouping, assigning default values for ip-address and subnet-mask.<a href="#section-3-13" class="pilcrow">¶</a></p>
+<p id="section-3-14">The network-config module imports interface-template, but instead of using interface-template container, it directly applies interface-config to allow overriding specific values within interface-instance.<a href="#section-3-14" class="pilcrow">¶</a></p>
+<p id="section-3-15">The instance configuration reflects these overrides while keeping the template structure consistent.<a href="#section-3-15" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="adapting-existing-yang-models-to-use-groupings">
+<section id="section-4">
+      <h2 id="name-adapting-existing-yang-mode">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-adapting-existing-yang-mode" class="section-name selfRef">Adapting Existing YANG Models to Use Groupings</a>
+      </h2>
+<p id="section-4-1">Many existing YANG models might have redundant structures that can be optimized by introducing groupings. Below are steps to adapt an existing model:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="identify-repetitive-structures">
+<section id="section-4.1">
+        <h3 id="name-identify-repetitive-structu">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-identify-repetitive-structu" class="section-name selfRef">Identify Repetitive Structures</a>
+        </h3>
+<p id="section-4.1-1">Look for data nodes or subtrees that appear multiple times in the model. These are ideal candidates for extraction into a grouping.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="define-a-grouping">
+<section id="section-4.2">
+        <h3 id="name-define-a-grouping">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-define-a-grouping" class="section-name selfRef">Define a Grouping</a>
+        </h3>
+<p id="section-4.2-1">Create a <code>grouping</code> structure containing the common elements.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="replace-redundant-code-with-uses-statement">
+<section id="section-4.3">
+        <h3 id="name-replace-redundant-code-with">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-replace-redundant-code-with" class="section-name selfRef">Replace Redundant Code with Uses Statement</a>
+        </h3>
+<p id="section-4.3-1">Use the <code>uses</code> statement to replace the repeated structures in the model.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<div id="example-converting-an-existing-model-to-use-groupings">
+<section id="section-4.3.1">
+          <h4 id="name-example-converting-an-exist">
+<a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-example-converting-an-exist" class="section-name selfRef">Example: Converting an Existing Model to Use Groupings</a>
+          </h4>
+<p id="section-4.3.1-1">A conceptual Original Model Without Groupings is below, It oulines a simple use of groupings without a practical need to merge or override certain configurations which is outlined further in a more detailed standard model later.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3.1-2">
+<pre>
+module existing-model {
+namespace "http://example.com/existing-model";
+prefix existing;
+
+container device1 {
+    leaf ip-address {
+        type string;
+    }
+    leaf subnet-mask {
+        type string;
+    }
+}
+
+container device2 {
+    leaf ip-address {
+        type string;
+    }
+    leaf subnet-mask {
+        type string;
+    }
+}
+}
+</pre><a href="#section-4.3.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.3.1-3">Optimized Model Using Groupings<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3.1-4">
+<pre>
+module optimized-model {
+namespace "http://example.com/optimized-model";
+prefix opt;
+
+grouping ip-config {
+    leaf ip-address {
+        type string;
+    }
+    leaf subnet-mask {
+        type string;
+    }
+}
+
+container device1 {
+    uses ip-config;
+}
+
+container device2 {
+    uses ip-config;
+}
+}
+</pre><a href="#section-4.3.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4.3.1-5">Similar to the above concept, one could optimize exisiting standard model. Considering re-usability(usage of groupings) alone does not solve pragmatic usecases,other aspects like configuration merge and configuration overriding must also be considered.This is important irrespective of how a template-consumer inherits from a template. ie: a template-consumer could be a set of list elements which inhertits from a common template or it could also be a virtual device which uses schema mounted models that are same as the host device. for this example, the ietf-interfaces model is choosen and the groupings defined herein could be used both for the template as well as the template-consumer.<a href="#section-4.3.1-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3.1-6">
+<pre>
+module ietf-interfaces {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-interfaces";
+  prefix if;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+
+  organization
+    "IETF NETMOD (Network Modeling) Working Group";
+
+  contact
+    "WG Web:   &lt;https://datatracker.ietf.org/wg/netmod/&gt;
+     WG List:  &lt;mailto:netmod@ietf.org&gt;
+
+     Editor:   Martin Bjorklund
+               &lt;mailto:mbj@tail-f.com&gt;";
+
+  description
+    "This module contains a collection of YANG definitions for
+     managing network interfaces.
+
+     Copyright (c) 2018 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC 8343; see
+     the RFC itself for full legal notices.";
+
+  revision 2018-02-20 {
+    description
+      "Updated to support NMDA.";
+    reference
+      "RFC 8343: A YANG Data Model for Interface Management";
+  }
+
+  revision 2014-05-08 {
+    description
+      "Initial revision.";
+    reference
+      "RFC 7223: A YANG Data Model for Interface Management";
+  }
+
+  /*
+   * Typedefs
+   */
+
+  typedef interface-ref {
+    type leafref {
+      path "/if:interfaces/if:interface/if:name";
+    }
+    description
+      "This type is used by data models that need to reference
+       interfaces.";
+  }
+
+  /*
+   * Identities
+   */
+
+  identity interface-type {
+    description
+      "Base identity from which specific interface types are
+       derived.";
+  }
+
+  /*
+   * Features
+   */
+
+  feature arbitrary-names {
+    description
+      "This feature indicates that the device allows user-controlled
+       interfaces to be named arbitrarily.";
+  }
+  feature pre-provisioning {
+    description
+      "This feature indicates that the device supports
+       pre-provisioning of interface configuration, i.e., it is
+       possible to configure an interface whose physical interface
+       hardware is not present on the device.";
+  }
+  feature if-mib {
+    description
+      "This feature indicates that the device implements
+       the IF-MIB.";
+    reference
+      "RFC 2863: The Interfaces Group MIB";
+  }
+    // Grouping for mandatory attributes
+  grouping mandatory-attributes {
+        leaf type {
+        type identityref {
+          base interface-type;
+        }
+ /*       mandatory true;     Removing mandatories*/
+        description
+          "The type of the interface.
+
+           When an interface entry is created, a server MAY
+           initialize the type leaf with a valid value, e.g., if it
+           is possible to derive the type from the name of the
+           interface.
+
+           If a client tries to set the type of an interface to a
+           value that can never be used by the system, e.g., if the
+           type is not supported or if the type does not match the
+           name of the interface, the server MUST reject the request.
+           A NETCONF server MUST reply with an rpc-error with the
+           error-tag 'invalid-value' in this case.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+    }
+    grouping default-attributes {
+     leaf enabled {
+        type boolean;
+/*        default "true";    Removing defaults */
+        description
+          "This leaf contains the configured, desired state of the
+           interface.
+
+           Systems that implement the IF-MIB use the value of this
+           leaf in the intended configuration to set
+           IF-MIB.ifAdminStatus to 'up' or 'down' after an ifEntry
+           has been initialized, as described in RFC 2863.
+
+           Changes in this leaf in the intended configuration are
+           reflected in ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+    }
+  /*
+   * Data nodes
+   */
+
+  container interfaces {
+    description
+      "Interface parameters.";
+
+    list interface {
+      key "name";
+
+      description
+        "The list of interfaces on the device.
+
+         The status of an interface is available in this list in the
+         operational state.  If the configuration of a
+         system-controlled interface cannot be used by the system
+         (e.g., the interface hardware present does not match the
+         interface type), then the configuration is not applied to
+         the system-controlled interface shown in the operational
+         state.  If the configuration of a user-controlled interface
+         cannot be used by the system, the configured interface is
+         not instantiated in the operational state.
+
+         System-controlled interfaces created by the system are
+         always present in this list in the operational state,
+         whether or not they are configured.";
+
+     leaf name {
+        type string;
+        description
+          "The name of the interface.
+
+           A device MAY restrict the allowed values for this leaf,
+           possibly depending on the type of the interface.
+           For system-controlled interfaces, this leaf is the
+           device-specific name of the interface.
+
+           If a client tries to create configuration for a
+           system-controlled interface that is not present in the
+           operational state, the server MAY reject the request if
+           the implementation does not support pre-provisioning of
+           interfaces or if the name refers to an interface that can
+           never exist in the system.  A Network Configuration
+           Protocol (NETCONF) server MUST reply with an rpc-error
+           with the error-tag 'invalid-value' in this case.
+
+           If the device supports pre-provisioning of interface
+           configuration, the 'pre-provisioning' feature is
+           advertised.
+
+           If the device allows arbitrarily named user-controlled
+           interfaces, the 'arbitrary-names' feature is advertised.
+
+           When a configured user-controlled interface is created by
+           the system, it is instantiated with the same name in the
+           operational state.
+
+           A server implementation MAY map this leaf to the ifName
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifName.  The definition of
+           such a mechanism is outside the scope of this document.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifName";
+      }
+
+      leaf description {
+        type string;
+        description
+          "A textual description of the interface.
+
+           A server implementation MAY map this leaf to the ifAlias
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifAlias.  The definition of
+           such a mechanism is outside the scope of this document.
+
+           Since ifAlias is defined to be stored in non-volatile
+           storage, the MIB implementation MUST map ifAlias to the
+           value of 'description' in the persistently stored
+           configuration.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAlias";
+      }
+      uses mandatory-attributes{
+      refine type{
+      mandatory true;
+      }
+      }
+/*      leaf type {
+        type identityref {
+          base interface-type;
+        }
+        mandatory true;
+        description
+          "The type of the interface.
+
+           When an interface entry is created, a server MAY
+           initialize the type leaf with a valid value, e.g., if it
+           is possible to derive the type from the name of the
+           interface.
+
+           If a client tries to set the type of an interface to a
+           value that can never be used by the system, e.g., if the
+           type is not supported or if the type does not match the
+           name of the interface, the server MUST reject the request.
+           A NETCONF server MUST reply with an rpc-error with the
+           error-tag 'invalid-value' in this case.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+*/
+uses default-attributes{
+refine enabled{
+default "true";
+    }
+  }
+/*      leaf enabled {
+        type boolean;
+        default "true";
+        description
+          "This leaf contains the configured, desired state of the
+           interface.
+
+           Systems that implement the IF-MIB use the value of this
+           leaf in the intended configuration to set
+           IF-MIB.ifAdminStatus to 'up' or 'down' after an ifEntry
+           has been initialized, as described in RFC 2863.
+
+           Changes in this leaf in the intended configuration are
+           reflected in ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+*/
+      leaf link-up-down-trap-enable {
+        if-feature if-mib;
+        type enumeration {
+          enum enabled {
+            value 1;
+            description
+              "The device will generate linkUp/linkDown SNMP
+               notifications for this interface.";
+          }
+          enum disabled {
+            value 2;
+            description
+              "The device will not generate linkUp/linkDown SNMP
+               notifications for this interface.";
+          }
+        }
+        description
+          "Controls whether linkUp/linkDown SNMP notifications
+           should be generated for this interface.
+
+           If this node is not configured, the value 'enabled' is
+           operationally used by the server for interfaces that do
+           not operate on top of any other interface (i.e., there are
+           no 'lower-layer-if' entries), and 'disabled' otherwise.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifLinkUpDownTrapEnable";
+      }
+
+      leaf admin-status {
+        if-feature if-mib;
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "Not ready to pass packets and not in some test mode.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.";
+          }
+        }
+        config false;
+        mandatory true;
+        description
+          "The desired state of the interface.
+
+           This leaf has the same read semantics as ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+
+      leaf oper-status {
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+
+            description
+              "The interface does not pass any packets.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.  No operational packets can
+               be passed.";
+          }
+          enum unknown {
+            value 4;
+            description
+              "Status cannot be determined for some reason.";
+          }
+          enum dormant {
+            value 5;
+            description
+              "Waiting for some external event.";
+          }
+          enum not-present {
+            value 6;
+            description
+              "Some component (typically hardware) is missing.";
+          }
+          enum lower-layer-down {
+            value 7;
+            description
+              "Down due to state of lower-layer interface(s).";
+          }
+        }
+        config false;
+        mandatory true;
+        description
+          "The current operational state of the interface.
+
+           This leaf has the same semantics as ifOperStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifOperStatus";
+      }
+
+      leaf last-change {
+        type yang:date-and-time;
+        config false;
+        description
+          "The time the interface entered its current operational
+           state.  If the current state was entered prior to the
+           last re-initialization of the local network management
+           subsystem, then this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifLastChange";
+      }
+
+      leaf if-index {
+        if-feature if-mib;
+        type int32 {
+          range "1..2147483647";
+        }
+        config false;
+        mandatory true;
+        description
+          "The ifIndex value for the ifEntry represented by this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifIndex";
+      }
+
+      leaf phys-address {
+        type yang:phys-address;
+        config false;
+        description
+          "The interface's address at its protocol sub-layer.  For
+           example, for an 802.x interface, this object normally
+           contains a Media Access Control (MAC) address.  The
+           interface's media-specific modules must define the bit
+           and byte ordering and the format of the value of this
+           object.  For interfaces that do not have such an address
+           (e.g., a serial line), this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifPhysAddress";
+      }
+
+      leaf-list higher-layer-if {
+        type interface-ref;
+        config false;
+        description
+          "A list of references to interfaces layered on top of this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf-list lower-layer-if {
+        type interface-ref;
+        config false;
+
+        description
+          "A list of references to interfaces layered underneath this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf speed {
+        type yang:gauge64;
+        units "bits/second";
+        config false;
+        description
+            "An estimate of the interface's current bandwidth in bits
+             per second.  For interfaces that do not vary in
+             bandwidth or for those where no accurate estimation can
+             be made, this node should contain the nominal bandwidth.
+             For interfaces that have no concept of bandwidth, this
+             node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifSpeed, ifHighSpeed";
+      }
+
+      container statistics {
+        config false;
+        description
+          "A collection of interface-related statistics objects.";
+
+        leaf discontinuity-time {
+          type yang:date-and-time;
+          mandatory true;
+          description
+            "The time on the most recent occasion at which any one or
+             more of this interface's counters suffered a
+             discontinuity.  If no such discontinuities have occurred
+             since the last re-initialization of the local management
+             subsystem, then this node contains the time the local
+             management subsystem re-initialized itself.";
+        }
+
+        leaf in-octets {
+          type yang:counter64;
+          description
+            "The total number of octets received on the interface,
+             including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInOctets";
+        }
+
+        leaf in-unicast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were not addressed to a
+             multicast or broadcast address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInUcastPkts";
+        }
+
+        leaf in-broadcast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a broadcast
+             address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInBroadcastPkts";
+        }
+
+        leaf in-multicast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a multicast
+             address at this sub-layer.  For a MAC-layer protocol,
+             this includes both Group and Functional addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInMulticastPkts";
+        }
+
+        leaf in-discards {
+          type yang:counter32;
+          description
+            "The number of inbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being deliverable to a higher-layer
+             protocol.  One possible reason for discarding such a
+             packet could be to free up buffer space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInDiscards";
+        }
+
+        leaf in-errors {
+          type yang:counter32;
+          description
+            "For packet-oriented interfaces, the number of inbound
+             packets that contained errors preventing them from being
+             deliverable to a higher-layer protocol.  For character-
+             oriented or fixed-length interfaces, the number of
+             inbound transmission units that contained errors
+             preventing them from being deliverable to a higher-layer
+             protocol.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInErrors";
+        }
+
+        leaf in-unknown-protos {
+          type yang:counter32;
+
+          description
+            "For packet-oriented interfaces, the number of packets
+             received via the interface that were discarded because
+             of an unknown or unsupported protocol.  For
+             character-oriented or fixed-length interfaces that
+             support protocol multiplexing, the number of
+             transmission units received via the interface that were
+             discarded because of an unknown or unsupported protocol.
+             For any interface that does not support protocol
+             multiplexing, this counter is not present.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInUnknownProtos";
+        }
+
+        leaf out-octets {
+          type yang:counter64;
+          description
+            "The total number of octets transmitted out of the
+             interface, including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutOctets";
+        }
+
+        leaf out-unicast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were not addressed
+             to a multicast or broadcast address at this sub-layer,
+             including those that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutUcastPkts";
+        }
+
+        leaf out-broadcast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             broadcast address at this sub-layer, including those
+             that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutBroadcastPkts";
+        }
+
+        leaf out-multicast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             multicast address at this sub-layer, including those
+             that were discarded or not sent.  For a MAC-layer
+             protocol, this includes both Group and Functional
+             addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutMulticastPkts";
+        }
+
+        leaf out-discards {
+          type yang:counter32;
+          description
+            "The number of outbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being transmitted.  One possible reason
+             for discarding such a packet could be to free up buffer
+             space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutDiscards";
+        }
+
+        leaf out-errors {
+          type yang:counter32;
+          description
+            "For packet-oriented interfaces, the number of outbound
+             packets that could not be transmitted because of errors.
+             For character-oriented or fixed-length interfaces, the
+             number of outbound transmission units that could not be
+             transmitted because of errors.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutErrors";
+        }
+      }
+
+    }
+  }
+
+  /*
+   * Legacy typedefs
+   */
+
+  typedef interface-state-ref {
+    type leafref {
+      path "/if:interfaces-state/if:interface/if:name";
+    }
+    status deprecated;
+    description
+      "This type is used by data models that need to reference
+       the operationally present interfaces.";
+  }
+
+  /*
+   * Legacy operational state data nodes
+   */
+
+  container interfaces-state {
+    config false;
+    status deprecated;
+    description
+      "Data nodes for the operational state of interfaces.";
+
+    list interface {
+      key "name";
+      status deprecated;
+
+      description
+        "The list of interfaces on the device.
+
+         System-controlled interfaces created by the system are
+         always present in this list, whether or not they are
+         configured.";
+
+      leaf name {
+        type string;
+        status deprecated;
+        description
+          "The name of the interface.
+
+           A server implementation MAY map this leaf to the ifName
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifName.  The definition of
+           such a mechanism is outside the scope of this document.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifName";
+      }
+
+      leaf type {
+        type identityref {
+          base interface-type;
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The type of the interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+
+      leaf admin-status {
+        if-feature if-mib;
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "Not ready to pass packets and not in some test mode.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.";
+          }
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The desired state of the interface.
+
+           This leaf has the same read semantics as ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+
+      leaf oper-status {
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "The interface does not pass any packets.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.  No operational packets can
+               be passed.";
+          }
+          enum unknown {
+            value 4;
+            description
+              "Status cannot be determined for some reason.";
+          }
+          enum dormant {
+            value 5;
+            description
+              "Waiting for some external event.";
+          }
+          enum not-present {
+            value 6;
+            description
+              "Some component (typically hardware) is missing.";
+          }
+          enum lower-layer-down {
+            value 7;
+            description
+              "Down due to state of lower-layer interface(s).";
+          }
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The current operational state of the interface.
+
+           This leaf has the same semantics as ifOperStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifOperStatus";
+      }
+
+      leaf last-change {
+        type yang:date-and-time;
+        status deprecated;
+        description
+          "The time the interface entered its current operational
+           state.  If the current state was entered prior to the
+           last re-initialization of the local network management
+           subsystem, then this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifLastChange";
+      }
+
+      leaf if-index {
+        if-feature if-mib;
+        type int32 {
+          range "1..2147483647";
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The ifIndex value for the ifEntry represented by this
+           interface.";
+
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifIndex";
+      }
+
+      leaf phys-address {
+        type yang:phys-address;
+        status deprecated;
+        description
+          "The interface's address at its protocol sub-layer.  For
+           example, for an 802.x interface, this object normally
+           contains a Media Access Control (MAC) address.  The
+           interface's media-specific modules must define the bit
+           and byte ordering and the format of the value of this
+           object.  For interfaces that do not have such an address
+           (e.g., a serial line), this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifPhysAddress";
+      }
+
+      leaf-list higher-layer-if {
+        type interface-state-ref;
+        status deprecated;
+        description
+          "A list of references to interfaces layered on top of this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf-list lower-layer-if {
+        type interface-state-ref;
+        status deprecated;
+        description
+          "A list of references to interfaces layered underneath this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf speed {
+        type yang:gauge64;
+        units "bits/second";
+        status deprecated;
+        description
+            "An estimate of the interface's current bandwidth in bits
+             per second.  For interfaces that do not vary in
+             bandwidth or for those where no accurate estimation can
+
+             be made, this node should contain the nominal bandwidth.
+             For interfaces that have no concept of bandwidth, this
+             node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifSpeed, ifHighSpeed";
+      }
+
+      container statistics {
+        status deprecated;
+        description
+          "A collection of interface-related statistics objects.";
+
+        leaf discontinuity-time {
+          type yang:date-and-time;
+          mandatory true;
+          status deprecated;
+          description
+            "The time on the most recent occasion at which any one or
+             more of this interface's counters suffered a
+             discontinuity.  If no such discontinuities have occurred
+             since the last re-initialization of the local management
+             subsystem, then this node contains the time the local
+             management subsystem re-initialized itself.";
+        }
+
+        leaf in-octets {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of octets received on the interface,
+             including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInOctets";
+        }
+
+        leaf in-unicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were not addressed to a
+             multicast or broadcast address at this sub-layer.
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInUcastPkts";
+        }
+
+        leaf in-broadcast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a broadcast
+             address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInBroadcastPkts";
+        }
+
+        leaf in-multicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a multicast
+             address at this sub-layer.  For a MAC-layer protocol,
+             this includes both Group and Functional addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInMulticastPkts";
+        }
+
+        leaf in-discards {
+          type yang:counter32;
+          status deprecated;
+
+          description
+            "The number of inbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being deliverable to a higher-layer
+             protocol.  One possible reason for discarding such a
+             packet could be to free up buffer space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInDiscards";
+        }
+
+        leaf in-errors {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of inbound
+             packets that contained errors preventing them from being
+             deliverable to a higher-layer protocol.  For character-
+             oriented or fixed-length interfaces, the number of
+             inbound transmission units that contained errors
+             preventing them from being deliverable to a higher-layer
+             protocol.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInErrors";
+        }
+
+        leaf in-unknown-protos {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of packets
+             received via the interface that were discarded because
+             of an unknown or unsupported protocol.  For
+             character-oriented or fixed-length interfaces that
+             support protocol multiplexing, the number of
+             transmission units received via the interface that were
+             discarded because of an unknown or unsupported protocol.
+             For any interface that does not support protocol
+             multiplexing, this counter is not present.
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInUnknownProtos";
+        }
+
+        leaf out-octets {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of octets transmitted out of the
+             interface, including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutOctets";
+        }
+
+        leaf out-unicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were not addressed
+             to a multicast or broadcast address at this sub-layer,
+             including those that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutUcastPkts";
+        }
+
+        leaf out-broadcast-pkts {
+          type yang:counter64;
+          status deprecated;
+
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             broadcast address at this sub-layer, including those
+             that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutBroadcastPkts";
+        }
+
+        leaf out-multicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             multicast address at this sub-layer, including those
+             that were discarded or not sent.  For a MAC-layer
+             protocol, this includes both Group and Functional
+             addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutMulticastPkts";
+        }
+
+        leaf out-discards {
+          type yang:counter32;
+          status deprecated;
+          description
+            "The number of outbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being transmitted.  One possible reason
+             for discarding such a packet could be to free up buffer
+             space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutDiscards";
+        }
+
+        leaf out-errors {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of outbound
+             packets that could not be transmitted because of errors.
+             For character-oriented or fixed-length interfaces, the
+             number of outbound transmission units that could not be
+             transmitted because of errors.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutErrors";
+        }
+      }
+    }
+  }
+}
+</pre><a href="#section-4.3.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="example-converting-an-existing-model-to-use-groupings-with-feature-flag">
+<section id="section-4.3.2">
+          <h4 id="name-example-converting-an-existi">
+<a href="#section-4.3.2" class="section-number selfRef">4.3.2. </a><a href="#name-example-converting-an-existi" class="section-name selfRef">Example: Converting an Existing Model to Use Groupings with feature flag</a>
+          </h4>
+<p id="section-4.3.2-1">Another alternative is to use "if-feature" in tandem with "choice" statement to mutually exclude the existing mandatory and default nodes when template solution is used. this method ensures that existing model's functionality is not impacted whereas if a implementation chooses to include template solution, then use the new nodes which is defined in a grouping without mandatory and defaults. As an example the ietf-interfaces is considered with the necessary updates.<a href="#section-4.3.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3.2-2">
+<pre>
+module ietf-interfaces {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-interfaces";
+  prefix if;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+
+  organization
+    "IETF NETMOD (Network Modeling) Working Group";
+
+  contact
+    "WG Web:   &lt;https://datatracker.ietf.org/wg/netmod/&gt;
+     WG List:  &lt;mailto:netmod@ietf.org&gt;
+
+     Editor:   Martin Bjorklund
+               &lt;mailto:mbj@tail-f.com&gt;";
+
+  description
+    "This module contains a collection of YANG definitions for
+     managing network interfaces.
+
+     Copyright (c) 2018 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD License
+     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC 8343; see
+     the RFC itself for full legal notices.";
+
+  revision 2018-02-20 {
+    description
+      "Updated to support NMDA.";
+    reference
+      "RFC 8343: A YANG Data Model for Interface Management";
+  }
+
+  revision 2014-05-08 {
+    description
+      "Initial revision.";
+    reference
+      "RFC 7223: A YANG Data Model for Interface Management";
+  }
+
+  /*
+   * Groupings
+   */
+grouping interface-enabled {
+    description
+      "Interface config true and mandatory/default data nodes.";
+    leaf itf-enabled {
+          type boolean;
+          /*default "true";*/
+          description
+            "This leaf contains the configured, desired state of the
+             interface.
+
+             Systems that implement the IF-MIB use the value of this
+             leaf in the 'running' datastore to set
+             IF-MIB.ifAdminStatus to 'up' or 'down' after an ifEntry
+             has been initialized, as described in RFC 2863.
+
+             Changes in this leaf in the 'running' datastore are
+             reflected in ifAdminStatus, but if ifAdminStatus is
+             changed over SNMP, this leaf is not affected.";
+          reference
+            "RFC 2863 - ifAdminStatus";
+        }
+    }
+grouping interface-type{
+      leaf itf-type {
+        type identityref {
+          base interface-type;
+        }
+        /*mandatory true;*/
+        description
+          "The type of the interface.
+
+           When an interface entry is created, a server MAY
+           initialize the type leaf with a valid value, e.g., if it
+           is possible to derive the type from the name of the
+           interface.
+
+           If a client tries to set the type of an interface to a
+           value that can never be used by the system, e.g., if the
+           type is not supported or if the type does not match the
+           name of the interface, the server MUST reject the request.
+           A NETCONF server MUST reply with an rpc-error with the
+           error-tag 'invalid-value' in this case.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+}
+  /*
+   * Typedefs
+   */
+
+  typedef interface-ref {
+    type leafref {
+      path "/if:interfaces/if:interface/if:name";
+    }
+    description
+      "This type is used by data models that need to reference
+       interfaces.";
+  }
+
+  /*
+   * Identities
+   */
+
+  identity interface-type {
+    description
+      "Base identity from which specific interface types are
+       derived.";
+  }
+
+  /*
+   * Features
+   */
+
+  feature arbitrary-names {
+    description
+      "This feature indicates that the device allows user-controlled
+       interfaces to be named arbitrarily.";
+  }
+  feature pre-provisioning {
+    description
+      "This feature indicates that the device supports
+       pre-provisioning of interface configuration, i.e., it is
+       possible to configure an interface whose physical interface
+       hardware is not present on the device.";
+  }
+  feature if-mib {
+    description
+      "This feature indicates that the device implements
+       the IF-MIB.";
+    reference
+      "RFC 2863: The Interfaces Group MIB";
+  }
+  feature interfaces-template-groupings {
+    description
+      "This feature indicates that the device implements
+       the groupings for templates.";
+  }
+
+  /*
+   * Data nodes
+   */
+
+  container interfaces {
+    description
+      "Interface parameters.";
+
+    list interface {
+      key "name";
+
+      description
+        "The list of interfaces on the device.
+
+         The status of an interface is available in this list in the
+         operational state.  If the configuration of a
+         system-controlled interface cannot be used by the system
+         (e.g., the interface hardware present does not match the
+         interface type), then the configuration is not applied to
+         the system-controlled interface shown in the operational
+         state.  If the configuration of a user-controlled interface
+         cannot be used by the system, the configured interface is
+         not instantiated in the operational state.
+
+         System-controlled interfaces created by the system are
+         always present in this list in the operational state,
+         whether or not they are configured.";
+
+     leaf name {
+        type string;
+        description
+          "The name of the interface.
+
+           A device MAY restrict the allowed values for this leaf,
+           possibly depending on the type of the interface.
+           For system-controlled interfaces, this leaf is the
+           device-specific name of the interface.
+
+           If a client tries to create configuration for a
+           system-controlled interface that is not present in the
+           operational state, the server MAY reject the request if
+           the implementation does not support pre-provisioning of
+           interfaces or if the name refers to an interface that can
+           never exist in the system.  A Network Configuration
+           Protocol (NETCONF) server MUST reply with an rpc-error
+           with the error-tag 'invalid-value' in this case.
+
+           If the device supports pre-provisioning of interface
+           configuration, the 'pre-provisioning' feature is
+           advertised.
+
+           If the device allows arbitrarily named user-controlled
+           interfaces, the 'arbitrary-names' feature is advertised.
+
+           When a configured user-controlled interface is created by
+           the system, it is instantiated with the same name in the
+           operational state.
+
+           A server implementation MAY map this leaf to the ifName
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifName.  The definition of
+           such a mechanism is outside the scope of this document.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifName";
+      }
+
+      leaf description {
+        type string;
+        description
+          "A textual description of the interface.
+
+           A server implementation MAY map this leaf to the ifAlias
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifAlias.  The definition of
+           such a mechanism is outside the scope of this document.
+
+           Since ifAlias is defined to be stored in non-volatile
+           storage, the MIB implementation MUST map ifAlias to the
+           value of 'description' in the persistently stored
+           configuration.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAlias";
+      }
+      choice interface-type{
+      case template{
+      uses interface-type{
+      if-feature interfaces-template-groupings;
+      }
+      }
+      case non-template{
+      leaf type {
+        type identityref {
+          base interface-type;
+        }
+        mandatory true;
+        description
+          "The type of the interface.
+
+           When an interface entry is created, a server MAY
+           initialize the type leaf with a valid value, e.g., if it
+           is possible to derive the type from the name of the
+           interface.
+
+           If a client tries to set the type of an interface to a
+           value that can never be used by the system, e.g., if the
+           type is not supported or if the type does not match the
+           name of the interface, the server MUST reject the request.
+           A NETCONF server MUST reply with an rpc-error with the
+           error-tag 'invalid-value' in this case.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+      }
+}
+      choice interface-enabled{
+      case template{
+      uses interface-enabled{
+      if-feature interfaces-template-groupings;
+      }
+      }
+      case non-template{
+      leaf enabled {
+        type boolean;
+        default "true";
+        description
+          "This leaf contains the configured, desired state of the
+           interface.
+
+           Systems that implement the IF-MIB use the value of this
+           leaf in the intended configuration to set
+           IF-MIB.ifAdminStatus to 'up' or 'down' after an ifEntry
+           has been initialized, as described in RFC 2863.
+
+           Changes in this leaf in the intended configuration are
+           reflected in ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+}
+}
+
+      leaf link-up-down-trap-enable {
+        if-feature if-mib;
+        type enumeration {
+          enum enabled {
+            value 1;
+            description
+              "The device will generate linkUp/linkDown SNMP
+               notifications for this interface.";
+          }
+          enum disabled {
+            value 2;
+            description
+              "The device will not generate linkUp/linkDown SNMP
+               notifications for this interface.";
+          }
+        }
+        description
+          "Controls whether linkUp/linkDown SNMP notifications
+           should be generated for this interface.
+
+           If this node is not configured, the value 'enabled' is
+           operationally used by the server for interfaces that do
+           not operate on top of any other interface (i.e., there are
+           no 'lower-layer-if' entries), and 'disabled' otherwise.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifLinkUpDownTrapEnable";
+      }
+
+      leaf admin-status {
+        if-feature if-mib;
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "Not ready to pass packets and not in some test mode.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.";
+          }
+        }
+        config false;
+        mandatory true;
+        description
+          "The desired state of the interface.
+
+           This leaf has the same read semantics as ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+
+      leaf oper-status {
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+
+            description
+              "The interface does not pass any packets.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.  No operational packets can
+               be passed.";
+          }
+          enum unknown {
+            value 4;
+            description
+              "Status cannot be determined for some reason.";
+          }
+          enum dormant {
+            value 5;
+            description
+              "Waiting for some external event.";
+          }
+          enum not-present {
+            value 6;
+            description
+              "Some component (typically hardware) is missing.";
+          }
+          enum lower-layer-down {
+            value 7;
+            description
+              "Down due to state of lower-layer interface(s).";
+          }
+        }
+        config false;
+        mandatory true;
+        description
+          "The current operational state of the interface.
+
+           This leaf has the same semantics as ifOperStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifOperStatus";
+      }
+
+      leaf last-change {
+        type yang:date-and-time;
+        config false;
+        description
+          "The time the interface entered its current operational
+           state.  If the current state was entered prior to the
+           last re-initialization of the local network management
+           subsystem, then this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifLastChange";
+      }
+
+      leaf if-index {
+        if-feature if-mib;
+        type int32 {
+          range "1..2147483647";
+        }
+        config false;
+        mandatory true;
+        description
+          "The ifIndex value for the ifEntry represented by this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifIndex";
+      }
+
+      leaf phys-address {
+        type yang:phys-address;
+        config false;
+        description
+          "The interface's address at its protocol sub-layer.  For
+           example, for an 802.x interface, this object normally
+           contains a Media Access Control (MAC) address.  The
+           interface's media-specific modules must define the bit
+           and byte ordering and the format of the value of this
+           object.  For interfaces that do not have such an address
+           (e.g., a serial line), this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifPhysAddress";
+      }
+
+      leaf-list higher-layer-if {
+        type interface-ref;
+        config false;
+        description
+          "A list of references to interfaces layered on top of this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf-list lower-layer-if {
+        type interface-ref;
+        config false;
+
+        description
+          "A list of references to interfaces layered underneath this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf speed {
+        type yang:gauge64;
+        units "bits/second";
+        config false;
+        description
+            "An estimate of the interface's current bandwidth in bits
+             per second.  For interfaces that do not vary in
+             bandwidth or for those where no accurate estimation can
+             be made, this node should contain the nominal bandwidth.
+             For interfaces that have no concept of bandwidth, this
+             node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifSpeed, ifHighSpeed";
+      }
+
+      container statistics {
+        config false;
+        description
+          "A collection of interface-related statistics objects.";
+
+        leaf discontinuity-time {
+          type yang:date-and-time;
+          mandatory true;
+          description
+            "The time on the most recent occasion at which any one or
+             more of this interface's counters suffered a
+             discontinuity.  If no such discontinuities have occurred
+             since the last re-initialization of the local management
+             subsystem, then this node contains the time the local
+             management subsystem re-initialized itself.";
+        }
+
+        leaf in-octets {
+          type yang:counter64;
+          description
+            "The total number of octets received on the interface,
+             including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInOctets";
+        }
+
+        leaf in-unicast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were not addressed to a
+             multicast or broadcast address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInUcastPkts";
+        }
+
+        leaf in-broadcast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a broadcast
+             address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInBroadcastPkts";
+        }
+
+        leaf in-multicast-pkts {
+          type yang:counter64;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a multicast
+             address at this sub-layer.  For a MAC-layer protocol,
+             this includes both Group and Functional addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInMulticastPkts";
+        }
+
+        leaf in-discards {
+          type yang:counter32;
+          description
+            "The number of inbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being deliverable to a higher-layer
+             protocol.  One possible reason for discarding such a
+             packet could be to free up buffer space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInDiscards";
+        }
+
+        leaf in-errors {
+          type yang:counter32;
+          description
+            "For packet-oriented interfaces, the number of inbound
+             packets that contained errors preventing them from being
+             deliverable to a higher-layer protocol.  For character-
+             oriented or fixed-length interfaces, the number of
+             inbound transmission units that contained errors
+             preventing them from being deliverable to a higher-layer
+             protocol.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInErrors";
+        }
+
+        leaf in-unknown-protos {
+          type yang:counter32;
+
+          description
+            "For packet-oriented interfaces, the number of packets
+             received via the interface that were discarded because
+             of an unknown or unsupported protocol.  For
+             character-oriented or fixed-length interfaces that
+             support protocol multiplexing, the number of
+             transmission units received via the interface that were
+             discarded because of an unknown or unsupported protocol.
+             For any interface that does not support protocol
+             multiplexing, this counter is not present.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInUnknownProtos";
+        }
+
+        leaf out-octets {
+          type yang:counter64;
+          description
+            "The total number of octets transmitted out of the
+             interface, including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutOctets";
+        }
+
+        leaf out-unicast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were not addressed
+             to a multicast or broadcast address at this sub-layer,
+             including those that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutUcastPkts";
+        }
+
+        leaf out-broadcast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             broadcast address at this sub-layer, including those
+             that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutBroadcastPkts";
+        }
+
+        leaf out-multicast-pkts {
+          type yang:counter64;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             multicast address at this sub-layer, including those
+             that were discarded or not sent.  For a MAC-layer
+             protocol, this includes both Group and Functional
+             addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutMulticastPkts";
+        }
+
+        leaf out-discards {
+          type yang:counter32;
+          description
+            "The number of outbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being transmitted.  One possible reason
+             for discarding such a packet could be to free up buffer
+             space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutDiscards";
+        }
+
+        leaf out-errors {
+          type yang:counter32;
+          description
+            "For packet-oriented interfaces, the number of outbound
+             packets that could not be transmitted because of errors.
+             For character-oriented or fixed-length interfaces, the
+             number of outbound transmission units that could not be
+             transmitted because of errors.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutErrors";
+        }
+      }
+
+    }
+  }
+
+  /*
+   * Legacy typedefs
+   */
+
+  typedef interface-state-ref {
+    type leafref {
+      path "/if:interfaces-state/if:interface/if:name";
+    }
+    status deprecated;
+    description
+      "This type is used by data models that need to reference
+       the operationally present interfaces.";
+  }
+
+  /*
+   * Legacy operational state data nodes
+   */
+
+  container interfaces-state {
+    config false;
+    status deprecated;
+    description
+      "Data nodes for the operational state of interfaces.";
+
+    list interface {
+      key "name";
+      status deprecated;
+
+      description
+        "The list of interfaces on the device.
+
+         System-controlled interfaces created by the system are
+         always present in this list, whether or not they are
+         configured.";
+
+      leaf name {
+        type string;
+        status deprecated;
+        description
+          "The name of the interface.
+
+           A server implementation MAY map this leaf to the ifName
+           MIB object.  Such an implementation needs to use some
+           mechanism to handle the differences in size and characters
+           allowed between this leaf and ifName.  The definition of
+           such a mechanism is outside the scope of this document.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifName";
+      }
+
+      leaf type {
+        type identityref {
+          base interface-type;
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The type of the interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifType";
+      }
+
+      leaf admin-status {
+        if-feature if-mib;
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "Not ready to pass packets and not in some test mode.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.";
+          }
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The desired state of the interface.
+
+           This leaf has the same read semantics as ifAdminStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifAdminStatus";
+      }
+
+      leaf oper-status {
+        type enumeration {
+          enum up {
+            value 1;
+            description
+              "Ready to pass packets.";
+          }
+          enum down {
+            value 2;
+            description
+              "The interface does not pass any packets.";
+          }
+          enum testing {
+            value 3;
+            description
+              "In some test mode.  No operational packets can
+               be passed.";
+          }
+          enum unknown {
+            value 4;
+            description
+              "Status cannot be determined for some reason.";
+          }
+          enum dormant {
+            value 5;
+            description
+              "Waiting for some external event.";
+          }
+          enum not-present {
+            value 6;
+            description
+              "Some component (typically hardware) is missing.";
+          }
+          enum lower-layer-down {
+            value 7;
+            description
+              "Down due to state of lower-layer interface(s).";
+          }
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The current operational state of the interface.
+
+           This leaf has the same semantics as ifOperStatus.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifOperStatus";
+      }
+
+      leaf last-change {
+        type yang:date-and-time;
+        status deprecated;
+        description
+          "The time the interface entered its current operational
+           state.  If the current state was entered prior to the
+           last re-initialization of the local network management
+           subsystem, then this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifLastChange";
+      }
+
+      leaf if-index {
+        if-feature if-mib;
+        type int32 {
+          range "1..2147483647";
+        }
+        mandatory true;
+        status deprecated;
+        description
+          "The ifIndex value for the ifEntry represented by this
+           interface.";
+
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifIndex";
+      }
+
+      leaf phys-address {
+        type yang:phys-address;
+        status deprecated;
+        description
+          "The interface's address at its protocol sub-layer.  For
+           example, for an 802.x interface, this object normally
+           contains a Media Access Control (MAC) address.  The
+           interface's media-specific modules must define the bit
+           and byte ordering and the format of the value of this
+           object.  For interfaces that do not have such an address
+           (e.g., a serial line), this node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifPhysAddress";
+      }
+
+      leaf-list higher-layer-if {
+        type interface-state-ref;
+        status deprecated;
+        description
+          "A list of references to interfaces layered on top of this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf-list lower-layer-if {
+        type interface-state-ref;
+        status deprecated;
+        description
+          "A list of references to interfaces layered underneath this
+           interface.";
+        reference
+          "RFC 2863: The Interfaces Group MIB - ifStackTable";
+      }
+
+      leaf speed {
+        type yang:gauge64;
+        units "bits/second";
+        status deprecated;
+        description
+            "An estimate of the interface's current bandwidth in bits
+             per second.  For interfaces that do not vary in
+             bandwidth or for those where no accurate estimation can
+
+             be made, this node should contain the nominal bandwidth.
+             For interfaces that have no concept of bandwidth, this
+             node is not present.";
+        reference
+          "RFC 2863: The Interfaces Group MIB -
+                     ifSpeed, ifHighSpeed";
+      }
+
+      container statistics {
+        status deprecated;
+        description
+          "A collection of interface-related statistics objects.";
+
+        leaf discontinuity-time {
+          type yang:date-and-time;
+          mandatory true;
+          status deprecated;
+          description
+            "The time on the most recent occasion at which any one or
+             more of this interface's counters suffered a
+             discontinuity.  If no such discontinuities have occurred
+             since the last re-initialization of the local management
+             subsystem, then this node contains the time the local
+             management subsystem re-initialized itself.";
+        }
+
+        leaf in-octets {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of octets received on the interface,
+             including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInOctets";
+        }
+
+        leaf in-unicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were not addressed to a
+             multicast or broadcast address at this sub-layer.
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCInUcastPkts";
+        }
+
+        leaf in-broadcast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a broadcast
+             address at this sub-layer.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInBroadcastPkts";
+        }
+
+        leaf in-multicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The number of packets, delivered by this sub-layer to a
+             higher (sub-)layer, that were addressed to a multicast
+             address at this sub-layer.  For a MAC-layer protocol,
+             this includes both Group and Functional addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCInMulticastPkts";
+        }
+
+        leaf in-discards {
+          type yang:counter32;
+          status deprecated;
+
+          description
+            "The number of inbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being deliverable to a higher-layer
+             protocol.  One possible reason for discarding such a
+             packet could be to free up buffer space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInDiscards";
+        }
+
+        leaf in-errors {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of inbound
+             packets that contained errors preventing them from being
+             deliverable to a higher-layer protocol.  For character-
+             oriented or fixed-length interfaces, the number of
+             inbound transmission units that contained errors
+             preventing them from being deliverable to a higher-layer
+             protocol.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInErrors";
+        }
+
+        leaf in-unknown-protos {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of packets
+             received via the interface that were discarded because
+             of an unknown or unsupported protocol.  For
+             character-oriented or fixed-length interfaces that
+             support protocol multiplexing, the number of
+             transmission units received via the interface that were
+             discarded because of an unknown or unsupported protocol.
+             For any interface that does not support protocol
+             multiplexing, this counter is not present.
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifInUnknownProtos";
+        }
+
+        leaf out-octets {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of octets transmitted out of the
+             interface, including framing characters.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutOctets";
+        }
+
+        leaf out-unicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were not addressed
+             to a multicast or broadcast address at this sub-layer,
+             including those that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifHCOutUcastPkts";
+        }
+
+        leaf out-broadcast-pkts {
+          type yang:counter64;
+          status deprecated;
+
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             broadcast address at this sub-layer, including those
+             that were discarded or not sent.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutBroadcastPkts";
+        }
+
+        leaf out-multicast-pkts {
+          type yang:counter64;
+          status deprecated;
+          description
+            "The total number of packets that higher-level protocols
+             requested be transmitted and that were addressed to a
+             multicast address at this sub-layer, including those
+             that were discarded or not sent.  For a MAC-layer
+             protocol, this includes both Group and Functional
+             addresses.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB -
+                       ifHCOutMulticastPkts";
+        }
+
+        leaf out-discards {
+          type yang:counter32;
+          status deprecated;
+          description
+            "The number of outbound packets that were chosen to be
+             discarded even though no errors had been detected to
+             prevent their being transmitted.  One possible reason
+             for discarding such a packet could be to free up buffer
+             space.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutDiscards";
+        }
+
+        leaf out-errors {
+          type yang:counter32;
+          status deprecated;
+          description
+            "For packet-oriented interfaces, the number of outbound
+             packets that could not be transmitted because of errors.
+             For character-oriented or fixed-length interfaces, the
+             number of outbound transmission units that could not be
+             transmitted because of errors.
+
+             Discontinuities in the value of this counter can occur
+             at re-initialization of the management system and at
+             other times as indicated by the value of
+             'discontinuity-time'.";
+          reference
+            "RFC 2863: The Interfaces Group MIB - ifOutErrors";
+        }
+      }
+    }
+  }
+}
+</pre><a href="#section-4.3.2-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="advantages-of-using-groupings">
+<section id="section-4.4">
+        <h3 id="name-advantages-of-using-groupin">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-advantages-of-using-groupin" class="section-name selfRef">Advantages of Using Groupings</a>
+        </h3>
+<div id="code-reusability">
+<section id="section-4.4.1">
+          <h4 id="name-code-reusability">
+<a href="#section-4.4.1" class="section-number selfRef">4.4.1. </a><a href="#name-code-reusability" class="section-name selfRef">Code Reusability</a>
+          </h4>
+<p id="section-4.4.1-1">Groupings allow the reuse of common structures across multiple parts of a model, reducing redundancy and improving maintainability.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="consistency">
+<section id="section-4.4.2">
+          <h4 id="name-consistency">
+<a href="#section-4.4.2" class="section-number selfRef">4.4.2. </a><a href="#name-consistency" class="section-name selfRef">Consistency</a>
+          </h4>
+<p id="section-4.4.2-1">By defining structures once and reusing them, models remain consistent, preventing discrepancies between similar definitions.<a href="#section-4.4.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="modularity">
+<section id="section-4.4.3">
+          <h4 id="name-modularity">
+<a href="#section-4.4.3" class="section-number selfRef">4.4.3. </a><a href="#name-modularity" class="section-name selfRef">Modularity</a>
+          </h4>
+<p id="section-4.4.3-1">Breaking down YANG models into reusable components improves modularity and facilitates model extension.<a href="#section-4.4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="simplified-maintenance">
+<section id="section-4.4.4">
+          <h4 id="name-simplified-maintenance">
+<a href="#section-4.4.4" class="section-number selfRef">4.4.4. </a><a href="#name-simplified-maintenance" class="section-name selfRef">Simplified Maintenance</a>
+          </h4>
+<p id="section-4.4.4-1">With groupings, any necessary changes to a repeated structure only need to be made in one place, simplifying updates and maintenance.<a href="#section-4.4.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="conclusion">
+<section id="section-4.5">
+        <h3 id="name-conclusion">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-conclusion" class="section-name selfRef">Conclusion</a>
+        </h3>
+<p id="section-4.5-1">Groupings in YANG play a crucial role in implementing templates by enabling reusable, modular, and scalable configurations. By leveraging groupings, network engineers can create structured templates that enhance maintainability and ensure consistency across network configurations. Templates based on groupings simplify model updates, reduce redundancy, and promote best practices in network automation and ensure scalability for evolving network management needs.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.5-2">As of today, we do not have any construct which could create a grouping "after-the-fact" since the tree is already defined. so to limit the impact to tools, we could minimise the groupings only to those nodes which is important for the correct behaviour of templates, eg: CT nodes which contains mandatory/defaults.<a href="#section-4.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.5-3">By adapting existing models to use groupings and integrating it effectively within templates, developers and organisations can improve operational efficiency and streamline configuration management across complex network infrastructures.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-5">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-5-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">TODO Security<a href="#section-6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-normative-references">
+<section id="section-8">
+      <h2 id="name-normative-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+      </h2>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+      <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+    <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">TODO acknowledge.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Deepak Rajaram</span></div>
+<div dir="auto" class="left"><span class="org">Nokia</span></div>
+<div dir="auto" class="left"><span class="locality">Chennai</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:deepak.rajaram@nokia.com" class="email">deepak.rajaram@nokia.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Robert Peschi</span></div>
+<div dir="auto" class="left"><span class="org">Nokia</span></div>
+<div dir="auto" class="left"><span class="locality">Antwerp</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:robert.peschi@nokia.com" class="email">robert.peschi@nokia.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Shiya Ashraf</span></div>
+<div dir="auto" class="left"><span class="org">Nokia</span></div>
+<div dir="auto" class="left"><span class="locality">Antwerp</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:shiya.ashraf@nokia.com" class="email">shiya.ashraf@nokia.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
